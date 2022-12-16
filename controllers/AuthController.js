@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { User } = require('../models/index');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -28,13 +29,15 @@ const login = async (req,res) =>{
             error: "User Or Password No Match"
         });
     }
-    const token = jwt.sign({userId:user.id},'inisecret')
+    const token = jwt.sign({userId:user.id},process.env.JWT_SECRET,{expiresIn:'1h'})
 
     return res.status(200).json({
         code: 200,
         access_token: token,
         message: 'Success Login'
     });
+    
 }
+
 
 module.exports = {coba, login}
