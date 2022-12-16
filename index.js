@@ -9,9 +9,12 @@ app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-
 
 // Middleware
 const authMiddleware = require('./middleware/auth');
+const messageMiddleware = require('./middleware/message');
 
 // Controller
 const authController = require('./controllers/AuthController');
+const UserController = require('./controllers/UserController');
+const MessageController = require('./controllers/MessageController');
 
 app.get('/',(req,res)=>{
     return res.status(200).json({
@@ -24,8 +27,9 @@ app.post('/login',authController.login)
 
 app.use(authMiddleware.LoggedIn)
 
-
-
+app.get('/contact',UserController.listUser);
+app.post('/send-message',messageMiddleware.checkMessage, MessageController.sendMessage);
+app.post('/list-message-recipient',MessageController.listMessageByRecipient);
 
 app.listen(port, ()=>{
     console.log(`Listening Into Port:${port}`);

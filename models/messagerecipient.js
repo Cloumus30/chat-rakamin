@@ -11,6 +11,17 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.belongsTo(models.Message,{
+        foreignKey:'message_id', 
+        targetKey:'id',
+        as:'message'
+      });
+
+      this.belongsTo(models.User,{
+        foreignKey:'recipient_id',
+        targetKey:'id',
+        as:'recipient'
+      });
     }
   }
   MessageRecipient.init({
